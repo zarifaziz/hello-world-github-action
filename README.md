@@ -18,3 +18,6 @@ Actions usually depend on node modules, but we don't want to commit the
 `node_modules/` directory to the repo so that actions have access to it. That's
 why we use a bundler like esbuild to bundle everything into `dist/index.js` 
 which contains everything the action needs to run.
+
+Github recommends [`vercel/ncc](https://github.com/vercel/ncc) for compiling a
+Node.js module into a single file together with all the dependencies, gcc-style.
