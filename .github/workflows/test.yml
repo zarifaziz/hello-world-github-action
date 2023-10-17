@@ -12,9 +12,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
+      - run: npm ci
       - run: npm run build
       - run: rm -rf node_modules
-      - run: npm ci
       - uses: ./ # runs default action
       - uses: ./
         with:
