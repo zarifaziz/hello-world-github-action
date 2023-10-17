@@ -1,5 +1,10 @@
 name: Zarifs Demo Action
-description: This action greets persons
+description: This action greets a person
+inputs:
+  person:
+    description: 'The name of the person to greet'
+    required: true
+    default: 'Monolisa Octocat'
 runs:
   using: node16
   main: src/index.js
