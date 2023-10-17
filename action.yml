@@ -8,3 +8,7 @@ inputs:
 runs:
   using: node16
   main: dist/index.js # pointing to the bundled file by esbuild
+# https://actions-cool.github.io/github-action-branding/
+branding:
+  icon: 'file-plus'
+  color: 'purple'
