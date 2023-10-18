@@ -34,7 +34,6 @@ jobs:
       - name: Generate OpenAPI.json
         run: |
           poetry run python -m scripts.generate-openapi
-        working-directory: ./hello-world-github-action
 
       - name: Archive OpenAPI JSON
         uses: actions/upload-artifact@v2
