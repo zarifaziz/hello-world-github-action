@@ -22,6 +22,9 @@
   },
   "homepage": "https://github.com/zarifaziz/hello-world-github-action#readme",
   "devDependencies": {
-    "esbuild": "^0.19.4"
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^9.2.1",
+    "esbuild": "^0.19.4",
+    "semantic-release": "^22.0.5"
   }
 }
