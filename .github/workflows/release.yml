@@ -1,10 +1,45 @@
 name: Release
 
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 jobs:
+  generate-openapi:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.11.0
+      
+      - name: Setup Poetry
+        uses: Gr1N/setup-poetry@v8
+
+      - name: Setup Cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+        
+      - name: Install Poetry Dependencies
+        run: |
+          poetry lock
+          poetry install --with dev
+      
+      - name: Generate OpenAPI.json
+        run: |
+          poetry run python -m scripts.generate-openapi
+        working-directory: ./hello-world-github-action
+
+      - name: Archive OpenAPI JSON
+        uses: actions/upload-artifact@v2
+        with:
+          name: openapi-document
+          path: openapi.json
+
   release:
     permissions:
       contents: write
@@ -12,10 +47,17 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
         with:
           node-version: '20.6.1'
+      - name: Download OpenAPI JSON
+        uses: actions/download-artifact@v2
+        with:
+          name: openapi-document
       - run: npm ci
       - run: npm run build
       - run: npx semantic-release
